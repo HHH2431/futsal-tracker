@@ -1,0 +1,10 @@
+﻿venv/
+env/
+__pycache__/
+*.mp4
+*.avi
+*.mkv
+*.pt
+*.engine
+runs/
+teste/
