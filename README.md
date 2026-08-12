@@ -1,0 +1,20 @@
+# Sistema de Rastreamento e Análise de Futsal
+
+## Resumo
+Projeto de Visão Computacional direcionado para o rastreamento e extração de coordenadas táticas a partir de transmissões de futsal de câmara móvel. A solução assenta numa arquitetura desacoplada com o intuito de otimizar os custos de computação em hardware de desempenho intermédio (requisito alvo: Nvidia GTX 1660 SUPER / Intel i5), separando as instâncias de extração profunda da geometria matricial baseada no processador principal (CPU).
+
+## Implementação Atual (Fase 1: Extração e Tratamento de Dados)
+
+O pipeline implementado foca-se na eliminação de "overhead" durante o período processamento das rotinas informacionais locais da inferência sobre cada gravação:
+
+*   **Inferência Computacional e Rastreamento (`futsal.py`):** Módulo central que instancia modelos de aprendizagem profunda do domínio da "YOLOv8" aplicados na localização. Funciona isolado num plano secundário (ausência total de "User Interface") de visualizações OpenCV ou gravações codificadas. Recolhe localizações vetoriais basais para serialização puramente escrita sob extensão estruturada num documento .json, registada diretamente num mapa com marcadores numéricos unificados de identificador e classes rastreados entre limites sequenciais das capturas (Bounding box axis limits em Ponto Cartesiano (x,y) Base).
+*   **Segmentação Algorítmica Geométrica (`processador_tatico.py`):** Módulo que filtra, do repositório extraído sob referências espaciais e não temporais globais da total amostra da sequência capturada em Json: Utilização dum cálculo geométrico sobre verificação Poligonal cruzando fronteiras e variáveis em CPU-limit - purificando bases documentadas poluídas no cruzamento classificado para o público nas bancadas em redor; processado assim apenas "bounding nodes" em recintos físicos de limite traçável;
+*   **Módulo Iterador Angular ("Calibration e Homografia Keyframe": `ui_calibrador_perspetiva.py`):** Script restrito na mitigação sobre a alteração escalar temporal no foco (Rotação em Ótica Fixa do hardware e aproximações Z de hardware capturando); Produz UI na aplicação direta por Humano na geração amostrada intermédia sobre "Keyframes". Cria pontos discretos entre o Modelo do "Espaço-Mundo-Imagem-Perspetivada" versus uma Tabela Numérica Relacional 2D (Referência Plana Tática) registada em Ficheiro Anotativo que garante âncoras locais num ficheiro novo perfeitamente indexado aos Timestamps isolados (Ancoramento) - Permitindo, por definição limite, modelizações posteriores com uma interpolação por transição geométrica exata sem "Tracker Cost e Matching" visual instável nos cálculos.
+
+## Trabalho Futuro (Fase 2)
+
+As metas planeadas incidirão nas operações com cálculos posteriores na manipulação sobre os mapas referenciados obtidos do output limpo e tratado e a construção base local relacional a gerenciar na plataforma para consumo cognitivo do utilzador final através dum GUI modularizado na interpretação estrutural dos relatórios (Frameworks na arquitetura Backend-Dashboarding em App), seguindo por estes três vectores primários:
+
+*   **Integração Matemática das Homografias Intercalares em Pipeline Backend.** Cálculo algébrico linear iterado sob Interpolações na base estrutural originada ao gerar Modelagens Perspetivas entre as Ancoras obtidas face à distribuição cartográfica registada para a projeção num Modelo Tático Fixo sobre Heatmap puro desdobrando localizações tridimensionais registadas anteriormente ao longos do modelo tempo perfeitamente escalares no campo.
+*   **Módulo UI Interativo Centralizado (Dashboard App Web - Frontend Local Host Serverless Framework).**
+*   **Acoplamento em Protocolo de Comunicação Textual Restringido e Direcional para Ferramenta Explicabilidade ("AI Council - Analistas Agentes LLM") baseada nos processamentos efetuados num modelo geracional encapsulado do Modelo do Motor base na Inference por Ollama API, integrado puramente nesta web Interface da Sessão Global, criando analises relacionando vetores dados gerados aos analistas programáticos.**
